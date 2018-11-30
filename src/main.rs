@@ -4,8 +4,9 @@ use game_of_life::*;
 
 fn main() {
     let mut world = init_world(80, 80);
-    insert_pattern(&mut world, &get_pattern(Patterns::Toad), 10, 10);
-    insert_pattern(&mut world, &get_pattern(Patterns::Blinker), 0, 0);
+    insert_pattern(&mut world, &get_pattern(Patterns::Toad), 20, 10);
+    insert_pattern(&mut world, &get_pattern(Patterns::Beacon), 20, 0);
+    insert_pattern(&mut world, &get_pattern(Patterns::Pulsar), 0, 0);
     insert_pattern(&mut world, &get_pattern(Patterns::Blinker), 76, 0);
     print_world(&world);
     for _i in 0..3 {
