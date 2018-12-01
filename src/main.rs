@@ -74,12 +74,16 @@ fn main() {
         world: init_world(100, 160),
     };
     
-    insert_pattern(&mut app.world, &patterns::get_pattern(Patterns::Toad), 20, 10);
+    insert_pattern(&mut app.world, &get_pattern(Patterns::Toad), 20, 10);
     insert_pattern(&mut app.world, &get_pattern(Patterns::Beacon), 20, 0);
     insert_pattern(&mut app.world, &get_pattern(Patterns::Pulsar), 0, 0);
     insert_pattern(&mut app.world, &get_pattern(Patterns::Blinker), 76, 0);
+    insert_pattern(&mut app.world, &get_pattern(Patterns::Gosper_Glider_Gun), 0, 20);
 
-    let mut events = Events::new(EventSettings::new());
+    let mut event_settings = EventSettings::new();
+    event_settings.set_ups(60);
+    let mut events = Events::new(event_settings);
+
     while let Some(e) = events.next(&mut window) {
         if let Some(r) = e.render_args() {
             app.render(&r);
