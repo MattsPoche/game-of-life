@@ -10,6 +10,20 @@ pub fn insert_pattern(world: &mut Vec<Vec<bool>>, pattern: &Vec<Vec<bool>>, x: u
     }
 }
 
+pub fn get_alive_cells(world: &Vec<Vec<bool>>) -> Vec<(usize, usize)> {
+    let mut alive_cells = Vec::new();
+
+    for y in 0..world.len() {
+        for x in 0..world[y].len() {
+            if world[y][x] {
+                alive_cells.push((x, y));
+            }
+        }
+    }
+
+    alive_cells
+}
+
 pub fn get_num_alive_neighbors(world: &Vec<Vec<bool>>, x: usize, y: usize) -> u32 {
     let mut count: u32 = 0;
     // y-1, x-1
@@ -119,6 +133,7 @@ pub fn get_state(world: &Vec<Vec<bool>>) -> (Vec<(usize, usize)>, Vec<(usize, us
                     dies.push((x, y));
                 }
             } else {
+                //rule 4
                 if num_neighbors == 3 {
                     lives.push((x, y));
                 }
