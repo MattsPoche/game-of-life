@@ -113,6 +113,51 @@ pub fn get_num_alive_neighbors(world: &Vec<Vec<bool>>, x: usize, y: usize) -> u3
 // 2. Any live cell with two or three live neighbors lives on to the next generation.
 // 3. Any live cell with more than three live neighbors dies, as if by overpopulation.
 // 4. Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+
+pub fn next_generation(world: &mut Vec<Vec<bool>>) {
+    let mut change_list = Vec::new();
+    for y in 0..world.len() {
+        for x in 0..world[0].len() {
+            let num_neighbors = get_num_alive_neighbors(&world, x, y);
+            if world[y][x] {
+                //rule 1
+                if num_neighbors < 2 {
+                    if world[y][x] {
+                        change_list.push((x, y));
+                    }
+                }
+                //rule 2
+                if num_neighbors == 2 || num_neighbors == 3 {
+                    if !world[y][x] {
+                        change_list.push((x, y));
+                    }
+                }
+                //rule 3
+                if num_neighbors > 3 {
+                    if world[y][x] {
+                        change_list.push((x, y));
+                    }
+                }
+            } else {
+                //rule 4
+                if num_neighbors == 3 {
+                    if !world[y][x] {
+                        change_list.push((x, y));
+                    }
+                }
+            }
+        }
+    }
+
+    for &(x, y) in change_list.iter() {
+        if world[y][x] {
+            world[y][x] = false;
+        } else {
+            world[y][x] = true;
+        }
+    }
+}
+//redundent code--
 pub fn get_state(world: &Vec<Vec<bool>>) -> (Vec<(usize, usize)>, Vec<(usize, usize)>) {
     let mut lives = Vec::new();
     let mut dies = Vec::new();
@@ -142,19 +187,17 @@ pub fn get_state(world: &Vec<Vec<bool>>) -> (Vec<(usize, usize)>, Vec<(usize, us
     }
     (lives, dies)
 }
-
+//redundent code--
 pub fn change_state(world: &mut Vec<Vec<bool>>, lives: Vec<(usize, usize)>, dies: Vec<(usize, usize)>) {
-    for coords in lives.iter() {
-        let (x, y) = *coords;
+    for &(x, y) in lives.iter() {
         world[y][x] = true;
     }
 
-    for coords in dies.iter() {
-        let (x, y) = *coords;
+    for &(x, y) in dies.iter() {
         world[y][x] = false;
     }
 }
-
+//prints to cli
 pub fn print_world(world: &Vec<Vec<bool>>) {
     for y in 0..world.len() {
         for x in 0..world[0].len() {
