@@ -80,9 +80,10 @@ fn main() {
     insert_pattern(&mut app.world, &get_pattern(Patterns::Pulsar), 0, 0);
     insert_pattern(&mut app.world, &get_pattern(Patterns::Blinker), 76, 0);
     insert_pattern(&mut app.world, &get_pattern(Patterns::GosperGliderGun), 0, 20);
+    insert_pattern(&mut app.world, &get_pattern(Patterns::GosperGliderGun), 40, 20);
 
     let mut event_settings = EventSettings::new();
-    event_settings.set_ups(10);
+    event_settings.set_ups(20);
     let mut events = Events::new(event_settings);
 
     while let Some(e) = events.next(&mut window) {

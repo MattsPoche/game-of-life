@@ -61,3 +61,66 @@ pub fn get_pattern(pattern: Patterns) -> Vec<Vec<bool>> {
         ],
     }
 }
+
+pub fn rotate(v: &Vec<(usize, usize)>) -> Vec<(usize, usize)> {
+    let (x_ubound, _) = get_bounds(v);
+    let mut v_p = Vec::new();
+
+    for &(x, y) in v.iter() {
+        let x_p = y;
+        let y_p = x_ubound - x;
+        v_p.push((x_p, y_p));
+    }
+
+    v_p
+}
+
+pub fn get_bounds(v: &Vec<(usize, usize)>) -> (usize, usize) {
+    let mut x_ubound = 0;
+    let mut y_ubound = 0;
+
+    for &(x, y) in v.iter() {
+        if x > x_ubound {
+            x_ubound = x;
+        }
+
+        if y > y_ubound {
+            y_ubound = y;
+        }
+    }
+
+    (x_ubound, y_ubound)
+}
+
+pub fn matricize(v: &Vec<bool>) {
+    //todo
+}
+
+pub fn print_vec(v: &Vec<(usize, usize)>) {
+    let (x_ubound, y_ubound) = get_bounds(&v);
+    for y in 0..y_ubound+1 {
+        for x in 0..x_ubound+1 {
+            if v.contains(&(x, y)) {
+                print!("1");
+            } else {
+                print!("0");
+            }
+        }
+        print!("\n");
+    }
+}
+// 0,1,0
+// 1,1,1
+// 0,1,0
+// 0,1,0
+// 0,1,0
+
+
+#[test]
+fn test_vec_code() {
+    let v = vec![(1, 0), (0, 1), (1, 1), (2, 1), (1, 2), (1, 3), (1, 4)];
+    print_vec(&v);
+    let v_p = rotate(&v);
+    print!("\n");
+    print_vec(&v_p);
+}
